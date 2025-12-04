@@ -1,5 +1,6 @@
 <script lang="ts">
 	import * as d3 from 'd3';
+	import defaultBackground from '$lib/assets/background.png';
 
 	// Props, States, Types
 	const {
@@ -9,7 +10,8 @@
 		tailDuration: tailDuration,
 		radius: radius,
 		borderColor: borderColor,
-		borderwidth: borderwidth
+		borderwidth: borderwidth,
+		backgroundImage: backgroundImage
 	}: {
 		observation: observationData;
 		index: number;
@@ -18,7 +20,13 @@
 		radius: number;
 		borderColor: string;
 		borderwidth: number;
+		backgroundImage: string | null;
 	} = $props();
+
+	// Replace background image if provided
+	let background = $derived(
+		backgroundImage ? backgroundImage : defaultBackground
+	);
 
 	type observationData = { x: number; y: number }[];
 
@@ -54,7 +62,7 @@
 	);
 
 	// Color Scale for the cooling effect on the points
-	const colorScale = $derived(d3.scaleSequential(d3.interpolateInferno));
+	const ColorScale = $derived(d3.scaleSequential(d3.interpolateInferno));
 
 	const customColorScale = $derived(
 		d3
@@ -135,6 +143,13 @@
 		Schmoove Chart
 	</div> -->
 	<svg {width} {height} role="img" bind:this={mainSvgRef}>
+		<image
+			href={background}
+			x={xScale(15)}
+			y={yScale(35)}
+			width={xScale(40) - xScale(15)}
+			height={yScale(10) - yScale(35)}
+		/>
 		<rect
 			x={xScale(15)}
 			y={yScale(35)}
@@ -142,13 +157,13 @@
 			height={yScale(10) - yScale(35)}
 			stroke="black"
 			stroke-width="2"
-			fill="rgba(0,0,0,0.3)"
+			fill="rgba(255,255,255,0)"
 		></rect>
 
 		<g bind:this={pointsGroupRef}></g>
 
-		<g class="x-axis" transform="translate(0,{height - margin.bottom})" bind:this={xAxisRef}></g>
-		<g class="y-axis" transform="translate({margin.left},0)" bind:this={yAxisRef}></g>
+		<!-- <g class="x-axis" transform="translate(0,{height - margin.bottom})" bind:this={xAxisRef}></g>
+		<g class="y-axis" transform="translate({margin.left},0)" bind:this={yAxisRef}></g> -->
 
 		<text
 			text-anchor="middle"
@@ -186,10 +201,11 @@
 </div>
 
 <style>
-	.x-axis,
+/* .x-axis,
 	.y-axis {
 		font-family: Arial, sans-serif;
 		font-size: 12px;
 		color: rgba(0, 0, 0, 0.3);
 	}
+*/
 </style>
