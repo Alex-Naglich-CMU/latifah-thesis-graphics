@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+body {
+	height: auto;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: #fcfbf5;
+	color: #000;
+}
