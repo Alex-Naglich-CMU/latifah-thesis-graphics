@@ -115,7 +115,8 @@
 						.style('pointer-events', 'none')
 						.transition()
 						.duration(tailDuration * 1000)
-						.attr('fill', customColorScale(0));
+						.attr('fill', customColorScale(0))
+						.ease(d3.easeCubicInOut);
 				});
 
 				animationFrame = requestAnimationFrame(animate);
